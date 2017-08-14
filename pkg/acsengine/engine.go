@@ -697,6 +697,9 @@ func (t *TemplateGenerator) getTemplateFuncMap(cs *api.ContainerService) templat
 				addonYamls = kubernetesAddonYamls15
 			} else {
 				addonYamls = kubernetesAddonYamls
+				if len(profile.AgentPoolProfiles) > 0 && profile.AgentPoolProfiles[0].IsManagedDisks() {
+					addonYamls["MASTER_ADDON_AZURE_STORAGE_CLASSES_B64_GZIP_STR"] = "kubernetesmasteraddons-azure-storage-classes_managed.yaml"
+				}
 			}
 			for placeholder, filename := range addonYamls {
 				addonTextContents := getBase64CustomScript(filename)
