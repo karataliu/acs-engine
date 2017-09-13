@@ -271,6 +271,14 @@ write_files:
     sed -i "s|<kubeClusterCidr>|{{WrapAsVariable "kubeClusterCidr"}}|g" "/etc/kubernetes/addons/calico-daemonset.yaml"
 {{end}}
 
+{{if .OrchestratorProfile.KubernetesConfig.UseCloudControllerManager }}
+    perl -ni -e "print s/cloud-provider=\K.*/external\"/r unless /--cloud-config=/" \
+      /etc/kubernetes/manifests/kube-apiserver.yaml
+
+    perl -ni -e "print s/cloud-provider=\K.*/external\"/r unless /(?:--cloud-config=|--route-reconciliation-period=)/" \
+      /etc/kubernetes/manifests/kube-controller-manager.yaml
+{{end}}
+
 - path: "/opt/azure/containers/provision.sh"
   permissions: "0744"
   encoding: gzip

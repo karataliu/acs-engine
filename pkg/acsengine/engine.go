@@ -109,6 +109,12 @@ var kubernetesAritfacts15 = map[string]string{
 	"KUBELET_SERVICE_B64_GZIP_STR":  "kuberneteskubelet1.5.service",
 }
 
+// For cloud controller manager
+var kubernetesAritfactsCcm = map[string]string{
+	"MASTER_PROVISION_B64_GZIP_STR": kubernetesMasterCustomScript,
+	"KUBELET_SERVICE_B64_GZIP_STR":  "kuberneteskubeletCcm.service",
+}
+
 var kubernetesAddonYamls = map[string]string{
 	"MASTER_ADDON_HEAPSTER_DEPLOYMENT_B64_GZIP_STR":             "kubernetesmasteraddons-heapster-deployment.yaml",
 	"MASTER_ADDON_KUBE_DNS_DEPLOYMENT_B64_GZIP_STR":             "kubernetesmasteraddons-kube-dns-deployment.yaml",
@@ -814,10 +820,14 @@ func (t *TemplateGenerator) getTemplateFuncMap(cs *api.ContainerService) templat
 
 			// add artifacts and addons
 			var artifiacts map[string]string
-			if profile.OrchestratorProfile.OrchestratorRelease == api.KubernetesRelease1Dot5 {
-				artifiacts = kubernetesAritfacts15
+			if profile.OrchestratorProfile.KubernetesConfig.UseCloudControllerManager {
+				artifiacts = kubernetesAritfactsCcm
 			} else {
-				artifiacts = kubernetesAritfacts
+				if profile.OrchestratorProfile.OrchestratorRelease == api.KubernetesRelease1Dot5 {
+					artifiacts = kubernetesAritfacts15
+				} else {
+					artifiacts = kubernetesAritfacts
+				}
 			}
 			for placeholder, filename := range artifiacts {
 				addonTextContents := getBase64CustomScript(filename)
@@ -857,10 +867,14 @@ func (t *TemplateGenerator) getTemplateFuncMap(cs *api.ContainerService) templat
 
 			// add artifacts
 			var artifiacts map[string]string
-			if cs.Properties.OrchestratorProfile.OrchestratorVersion == api.KubernetesRelease1Dot5 {
-				artifiacts = kubernetesAritfacts15
+			if cs.Properties.OrchestratorProfile.KubernetesConfig.UseCloudControllerManager {
+				artifiacts = kubernetesAritfactsCcm
 			} else {
-				artifiacts = kubernetesAritfacts
+				if cs.Properties.OrchestratorProfile.OrchestratorVersion == api.KubernetesRelease1Dot5 {
+					artifiacts = kubernetesAritfacts15
+				} else {
+					artifiacts = kubernetesAritfacts
+				}
 			}
 			for placeholder, filename := range artifiacts {
 				addonTextContents := getBase64CustomScript(filename)

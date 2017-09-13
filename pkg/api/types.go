@@ -166,6 +166,7 @@ type KubernetesConfig struct {
 	CustomHyperkubeImage             string  `json:"customHyperkubeImage,omitempty"`
 	UseInstanceMetadata              bool    `json:"useInstanceMetadata,omitempty"`
 	EnableRbac                       bool    `json:"enableRbac,omitempty"`
+	UseCloudControllerManager        bool    `json:"useCloudControllerManager,omitempty"`
 }
 
 // MasterProfile represents the definition of the master cluster
