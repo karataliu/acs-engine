@@ -164,6 +164,7 @@ type KubernetesConfig struct {
 	CloudProviderRateLimitBucket     int     `json:"cloudProviderRateLimitBucket,omitempty"`
 	UseManagedIdentity               bool    `json:"useManagedIdentity,omitempty"`
 	CustomHyperkubeImage             string  `json:"customHyperkubeImage,omitempty"`
+	CustomAccmImage                  string  `json:"customAccmImage,omitempty"` // Image for azure-cloud-controller-manager
 	UseInstanceMetadata              bool    `json:"useInstanceMetadata,omitempty"`
 	EnableRbac                       bool    `json:"enableRbac,omitempty"`
 	UseCloudControllerManager        bool    `json:"useCloudControllerManager,omitempty"`

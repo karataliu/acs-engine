@@ -105,6 +105,13 @@
       },
       "type": "string"
     },
+    "kubernetesAccmImageSpec": {
+      "defaultValue": "",
+      "metadata": {
+        "description": "The container spec for azure-cloud-controller-manager."
+      },
+      "type": "string"
+    },
     "kubernetesAddonManagerSpec": {
       {{PopulateClassicModeDefaultValue "kubernetesAddonManagerSpec"}}
       "metadata": {

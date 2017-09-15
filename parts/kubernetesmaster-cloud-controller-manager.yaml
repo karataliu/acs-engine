@@ -1,0 +1,44 @@
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  name: "cloud-controller-manager"
+  namespace: "kube-system"
+  labels:
+    tier: control-plane
+    component: cloud-controller-manager
+spec:
+  hostNetwork: true
+  containers:
+    - name: "azure-cloud-controller-manager"
+      image: "<kubernetesAccmImageSpec>"
+      command: 
+        - "/app/azure-cloud-controller-manager"
+        - "--allocate-node-cidrs=<allocateNodeCidrs>"
+        - "--cloud-config=/etc/kubernetes/azure.json"
+        - "--cluster-cidr=<kubeClusterCidr>"
+# kubernetes #52522
+#        - "--cluster-name=<masterFqdnPrefix>" 
+        - "--kubeconfig=/var/lib/kubelet/kubeconfig"
+# TODO: RBAC support
+#        - "--service-account-private-key-file=/etc/kubernetes/certs/apiserver.key"
+#        - "<kubernetesEnableRbac>"
+        - "--route-reconciliation-period=<kubernetesCtrlMgrRouteReconciliationPeriod>"
+        - "--v=2"
+      volumeMounts: 
+        - name: "etc-kubernetes"
+          mountPath: "/etc/kubernetes"
+        - name: "var-lib-kubelet"
+          mountPath: "/var/lib/kubelet"
+        - name: msi
+          mountPath: "/var/lib/waagent/ManagedIdentity-Settings"
+          readOnly: true
+  volumes:
+    - name: "etc-kubernetes"
+      hostPath:
+        path: "/etc/kubernetes"
+    - name: "var-lib-kubelet"
+      hostPath:
+        path: "/var/lib/kubelet"
+    - name: msi
+      hostPath:
+        path: "/var/lib/waagent/ManagedIdentity-Settings"
