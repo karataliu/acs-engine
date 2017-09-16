@@ -282,7 +282,7 @@ write_files:
 
 {{if .OrchestratorProfile.KubernetesConfig.UseCloudControllerManager }}
     sed -i "s|<kubernetesAccmImageSpec>|{{WrapAsVariable "kubernetesAccmImageSpec"}}|g; s|<masterFqdnPrefix>|{{WrapAsVariable "masterFqdnPrefix"}}|g; s|<allocateNodeCidrs>|{{WrapAsVariable "allocateNodeCidrs"}}|g; s|<kubeClusterCidr>|{{WrapAsVariable "kubeClusterCidr"}}|g; s|<kubernetesCtrlMgrRouteReconciliationPeriod>|{{WrapAsVariable "kubernetesCtrlMgrRouteReconciliationPeriod"}}|g" \
-      /etc/kubernetes/manifests/kube-controller-manager.yaml
+      /etc/kubernetes/manifests/cloud-controller-manager.yaml
 
     perl -ni -e "print s/cloud-provider=\K.*/external\"/r unless /(?:--cloud-config=|--route-reconciliation-period=)/" \
       /etc/kubernetes/manifests/kube-controller-manager.yaml
