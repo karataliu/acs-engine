@@ -101,6 +101,15 @@ write_files:
   content: !!binary |
     MASTER_KUBERNETES_CONTROLLER_MANAGER_B64_GZIP_STR
 
+{{if .OrchestratorProfile.KubernetesConfig.UseCloudControllerManager }}
+- path: /etc/kubernetes/manifests/cloud-controller-manager.yaml
+  permissions: "0644"
+  encoding: gzip
+  owner: "root"
+  content: !!binary |
+    MASTER_KUBERNETES_CLOUD_CONTROLLER_MANAGER_B64_GZIP_STR
+{{end}}
+
 - path: /etc/kubernetes/manifests/kube-scheduler.yaml
   permissions: "0644"
   encoding: gzip
@@ -290,6 +299,16 @@ write_files:
     sed -i "/requestheader-extra-headers-prefix/d" "/etc/kubernetes/manifests/kube-apiserver.yaml"
     sed -i "/requestheader-group-headers/d" "/etc/kubernetes/manifests/kube-apiserver.yaml"
     sed -i "/requestheader-username-headers/d" "/etc/kubernetes/manifests/kube-apiserver.yaml"
+{{end}}
+
+{{if .OrchestratorProfile.KubernetesConfig.UseCloudControllerManager }}
+    sed -i "s|<kubernetesCcmImageSpec>|{{WrapAsVariable "kubernetesCcmImageSpec"}}|g; s|<masterFqdnPrefix>|{{WrapAsVariable "masterFqdnPrefix"}}|g; s|<allocateNodeCidrs>|{{WrapAsVariable "allocateNodeCidrs"}}|g; s|<kubeClusterCidr>|{{WrapAsVariable "kubeClusterCidr"}}|g; s|<kubernetesCtrlMgrRouteReconciliationPeriod>|{{WrapAsVariable "kubernetesCtrlMgrRouteReconciliationPeriod"}}|g" \
+      /etc/kubernetes/manifests/cloud-controller-manager.yaml
+
+    sed -i "/--\(cloud-config\|cloud-provider\|route-reconciliation-period\)=/d" \
+      /etc/kubernetes/manifests/kube-controller-manager.yaml
+    sed -i "/--\(cloud-config\|cloud-provider\)=/d" \
+      /etc/kubernetes/manifests/kube-apiserver.yaml
 {{end}}
 
 - path: "/opt/azure/containers/provision.sh"

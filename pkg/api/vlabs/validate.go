@@ -512,6 +512,12 @@ func (a *KubernetesConfig) Validate(k8sRelease string) error {
 		}
 	}
 
+	if a.UseCloudControllerManager || a.CustomCcmImage != "" {
+		if k8sRelease != common.KubernetesRelease1Dot8 {
+			return fmt.Errorf("OrchestratorProfile.KubernetesConfig.UseCloudControllerManager and OrchestratorProfile.KubernetesConfig.CustomCcmImage not available in kubernetes release %s", k8sRelease)
+		}
+	}
+
 	return nil
 }
 
