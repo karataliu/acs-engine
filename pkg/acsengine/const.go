@@ -99,6 +99,7 @@ const (
 var KubeConfigs = map[string]map[string]string{
 	api.KubernetesVersion1Dot8Dot1: {
 		"hyperkube":       "hyperkube-amd64:v1.8.1",
+		"ccm":             "cloud-controller-manager-amd64:v1.8.1",
 		"dashboard":       "kubernetes-dashboard-amd64:v1.7.0",
 		"exechealthz":     "exechealthz-amd64:1.2",
 		"addonresizer":    "addon-resizer:1.7",

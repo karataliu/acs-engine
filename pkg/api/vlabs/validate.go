@@ -522,6 +522,12 @@ func (a *KubernetesConfig) Validate(k8sVersion string) error {
 		return e
 	}
 
+	if a.UseCloudControllerManager || a.CustomCcmImage != "" {
+		if k8sVersion != common.KubernetesVersion1Dot8Dot1 {
+			return fmt.Errorf("OrchestratorProfile.KubernetesConfig.UseCloudControllerManager and OrchestratorProfile.KubernetesConfig.CustomCcmImage not available in kubernetes version %s", k8sVersion)
+		}
+	}
+
 	return nil
 }
 
