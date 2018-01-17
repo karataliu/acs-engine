@@ -632,6 +632,8 @@ func (a *KubernetesConfig) Validate(k8sVersion string) error {
 		common.KubernetesVersion1Dot8Dot2: true,
 		common.KubernetesVersion1Dot8Dot4: true,
 		common.KubernetesVersion1Dot8Dot6: true,
+		common.KubernetesVersion1Dot9Dot0: true,
+		common.KubernetesVersion1Dot9Dot1: true,
 	}
 
 	if a.UseCloudControllerManager != nil && *a.UseCloudControllerManager || a.CustomCcmImage != "" {
