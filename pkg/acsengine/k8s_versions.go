@@ -17,7 +17,7 @@ var KubeConfigs = map[string]map[string]string{
 		"addonresizer":              "addon-resizer:1.7",
 		"heapster":                  "heapster-amd64:v1.5.0",
 		"dns":                       "k8s-dns-kube-dns-amd64:1.14.8",
-		"addonmanager":              "kube-addon-manager-amd64:v6.5",
+		"addonmanager":              "kube-addon-manager-amd64:v8.5",
 		"dnsmasq":                   "k8s-dns-dnsmasq-nanny-amd64:1.14.8",
 		"pause":                     "pause-amd64:3.1",
 		DefaultTillerAddonName:      DefaultTillerImage,
