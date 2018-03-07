@@ -18,7 +18,7 @@ var KubeConfigs = map[string]map[string]string{
 		"heapster":                    "heapster-amd64:v1.5.0",
 		DefaultMetricsServerAddonName: "metrics-server-amd64:v0.2.1",
 		"dns":                       "k8s-dns-kube-dns-amd64:1.14.8",
-		"addonmanager":              "kube-addon-manager-amd64:v6.5",
+		"addonmanager":              "kube-addon-manager-amd64:v8.5",
 		"dnsmasq":                   "k8s-dns-dnsmasq-nanny-amd64:1.14.8",
 		"pause":                     "pause-amd64:3.1",
 		DefaultTillerAddonName:      DefaultTillerImage,
